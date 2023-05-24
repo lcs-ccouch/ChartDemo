@@ -26,40 +26,54 @@ struct ContentView: View {
         
     ]
     var body: some View {
-        VStack {
-            Text("Connor Mcdavid Goals 2022-2023 season")
-                .font(.title)
-                .fontWeight(.bold)
-            Chart {
-                ForEach(ViewMonth) { viewMonth in
-                    BarMark(x: .value("Month", viewMonth.date, unit: .month),
-                            y: .value("Goals", viewMonth.goals)
-                            )
-                }
-                .foregroundStyle(Color.red)
+        ScrollView {
+            VStack {
                 
+                
+                
+                Text("Connor Mcdavid Goals 2022-2023 season")
+                    .font(.title)
+                    .fontWeight(.bold)
+                Image("McDavid")
+                    .resizable()
+                    .scaledToFill()
+                
+                
+                Image("Stats")
+                    .resizable()
+                    .scaledToFit()
+                
+                Chart {
+                    ForEach(ViewMonth) { viewMonth in
+                        BarMark(x: .value("Month", viewMonth.date, unit: .month),
+                                y: .value("Goals", viewMonth.goals)
+                        )
+                    }
+                    .foregroundStyle(Color.red)
+                    
                 }
-            .frame(height: 300)
+                .frame(height: 300)
             }
             .padding()
         }
     }
-    
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            ContentView()
-        }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
-    
-    struct ViewMonth: Identifiable {
-        let id = UUID()
-        let date: Date
-        let goals: Int
+}
+
+struct ViewMonth: Identifiable {
+    let id = UUID()
+    let date: Date
+    let goals: Int
+}
+extension Date {
+    static func from(year:Int, month: Int, day: Int)-> Date {
+        let componenets = DateComponents(year: year, month: month, day:day)
+        return Calendar.current.date(from: componenets)!
     }
-    extension Date {
-        static func from(year:Int, month: Int, day: Int)-> Date {
-            let componenets = DateComponents(year: year, month: month, day:day)
-            return Calendar.current.date(from: componenets)!
-        }
-    }
+}
 
