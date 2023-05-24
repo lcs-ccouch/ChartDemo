@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Charts
 
 struct ContentView: View {
-    let viewyears: [ViewYears] = [
+    
+    let ViewMonth: [ViewMonth] = [
         .init(date:Date.from(year: 2023, month: 1, day: 1), goals: 100),
         .init(date:Date.from(year: 2023, month: 2, day: 1), goals: 101),
         .init(date:Date.from(year: 2023, month: 3, day: 1), goals: 90),
@@ -21,33 +23,43 @@ struct ContentView: View {
         .init(date:Date.from(year: 2023, month: 10, day: 1), goals: 100),
         .init(date:Date.from(year: 2023, month: 11, day: 1), goals: 67),
         .init(date:Date.from(year: 2023, month: 12, day: 1), goals: 98)
-       
+        
     ]
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Text("Connor Mcdavid Goals 2022-2023 season")
+                .font(.title)
+                .fontWeight(.bold)
+            Chart {
+                ForEach(ViewMonth) { viewMonth in
+                    BarMark(x: .value("Month", viewMonth.date, unit: .month),
+                            y: .value("Goals", viewMonth.goals)
+                            )
+                }
+                .foregroundStyle(Color.red)
+                
+                }
+            .frame(height: 300)
+            }
+            .padding()
         }
-        .padding()
     }
-}
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
+    }
+    
+    struct ViewMonth: Identifiable {
+        let id = UUID()
+        let date: Date
+        let goals: Int
+    }
+    extension Date {
+        static func from(year:Int, month: Int, day: Int)-> Date {
+            let componenets = DateComponents(year: year, month: month, day:day)
+            return Calendar.current.date(from: componenets)!
+        }
+    }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-
-struct ViewYears: Identifiable {
-    let id = UUID()
-    let date: Date
-    let goals: Int
-}
-extension Date {
-    static func from(year:Int, month: Int, day: Int)-> Date {
-        let componenets = DateComponents(year: year, month: month, day:day)
-        return Calendar.current.date(from: componenets)!
-    }
-}
