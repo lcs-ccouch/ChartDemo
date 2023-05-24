@@ -24,3 +24,15 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+struct ViewYears: Identifiable {
+    let id = UUID()
+    let date: Date
+    let goals: Int
+}
+extension Date {
+    static func from(year:Int, month: Int, day: Int)-> Date {
+        let componenets = DateComponents(year: year, month: month, day:day)
+        return Calendar.current.date(from: componenets)!
+    }
+}
